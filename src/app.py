@@ -11,8 +11,8 @@ from typing import List, Optional
 import os
 from pathlib import Path
 
-from models import TimeEntry, ChargeCode, WeeklySummary
-from utils import ConfigManager, ChargeCodeManager, TimeEntryManager, get_week_dates, format_hours
+from src.models import TimeEntry, ChargeCode, WeeklySummary
+from src.utils import ConfigManager, ChargeCodeManager, TimeEntryManager, get_week_dates, format_hours
 
 # Page configuration
 st.set_page_config(
