@@ -1,0 +1,36 @@
+[app]
+name = "Timesheet Simplifier"
+version = "1.0.0"
+organization = "Your Organization"
+team = "Your Team"
+
+[paths]
+# Directory where the charge code file will be placed
+charge_codes_dir = "./charge_codes"
+# Directory for storing time entries
+data_dir = "./data"
+# Directory for exports
+export_dir = "./exports"
+
+[files]
+# Expected charge code file patterns
+charge_code_patterns = ["*.xlsx", "*.xls", "*.csv"]
+# Time entries database
+time_entries_file = "time_entries.json"
+
+[ui]
+# Theme settings - customize these for your organization
+primary_color = "#1f77b4"  # Default blue
+secondary_color = "#ff7f0e"  # Default orange
+background_color = "#f0f2f6"
+text_color = "#262730"
+
+[features]
+# Feature flags
+enable_export = true
+enable_charts = true
+enable_weekly_summary = true
+enable_search = true
+enable_templates = true
+max_hours_per_day = 24
+default_hours = 8

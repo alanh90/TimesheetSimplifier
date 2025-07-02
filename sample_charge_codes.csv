@@ -1,0 +1,16 @@
+friendly_name,percent,task_source,task,sub_task,operating_unit,process,project,activity,customer_segment
+"Web Development - Phase 1",100,IT,Development,Frontend,Technology,Software Development,WEB-2025-001,Implementation,Internal
+"Mobile App Enhancement",100,IT,Development,Mobile,Technology,Software Development,MOB-2025-017,Enhancement,External
+"Data Analytics Platform",100,IT,Development,Analytics,Technology,Business Intelligence,DAT-2025-003,Development,Internal
+"Infrastructure Maintenance",100,IT,Operations,Maintenance,Technology,Infrastructure,INF-2025-M01,Maintenance,Internal
+"Security Compliance Review",100,IT,Security,Audit,Technology,Security,SEC-2025-A12,Compliance,Internal
+"Customer Support Tier 2",100,IT,Support,Level 2,Technology,Customer Service,SUP-2025-001,Support,Internal
+"Technical Training Program",100,HR,Training,Technical,Human Resources,Learning & Development,TRN-2025-T01,Training,Internal
+"Project Management",100,IT,Management,Coordination,Technology,PMO,PMO-2025-001,Administration,Internal
+"Cloud Migration Planning",100,IT,Planning,Architecture,Technology,Infrastructure,CLD-2025-P01,Planning,Internal
+"API Development",100,IT,Development,Backend,Technology,Software Development,API-2025-007,Integration,External
+"Database Optimization",100,IT,Operations,Performance,Technology,Database,DBO-2025-OPT,Optimization,Internal
+"Software Testing QA",100,IT,Testing,Quality Assurance,Technology,Software Development,QA-2025-002,Testing,Internal
+"Network Infrastructure",100,IT,Infrastructure,Network,Technology,Network,NET-2025-U03,Implementation,Internal
+"Process Automation",100,IT,Development,Automation,Technology,Process Improvement,AUT-2025-011,Development,Internal
+"Documentation Updates",100,IT,Documentation,Technical Writing,Technology,Knowledge Management,DOC-2025-P02,Documentation,Internal
