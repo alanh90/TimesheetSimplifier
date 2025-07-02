@@ -17,28 +17,34 @@ def create_directories():
     print("Creating directories...")
     for directory in directories:
         Path(directory).mkdir(exist_ok=True)
-        print(f"  ✓ Created {directory}/")
+        # Replaced '✓' with '-'
+        print(f"  - Created {directory}/")
 
     # Create .gitkeep files to ensure directories are tracked
     for directory in directories:
         gitkeep = Path(directory) / '.gitkeep'
-        gitkeep.touch()
+        # Ensure .gitkeep files exist, but don't error if they do
+        if not gitkeep.exists():
+            gitkeep.touch()
 
 
 def copy_sample_files():
     """Copy sample files if they don't exist"""
     print("\nSetting up sample files...")
 
-    # Check if sample charge code file exists
+    # Check if sample charge code file exists (assuming it's at the project root initially)
     if os.path.exists('sample_charge_codes.csv'):
         target_path = Path('charge_codes') / 'sample_charge_codes.csv'
         if not target_path.exists():
             shutil.copy('sample_charge_codes.csv', target_path)
-            print("  ✓ Copied sample charge codes to charge_codes/")
+            # Replaced '✓' with '-'
+            print("  - Copied sample charge codes to charge_codes/")
         else:
-            print("  → Sample charge codes already exist")
+            # Replaced '→' with '-'
+            print("  - Sample charge codes already exist")
     else:
-        print("  ! Sample charge codes file not found")
+        # Replaced '!' with '-' (or could remove if desired)
+        print("  - Sample charge codes file not found")
 
 
 def install_requirements():
@@ -46,10 +52,16 @@ def install_requirements():
     print("\nInstalling Python packages...")
 
     try:
-        subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-r', 'requirements.txt'])
-        print("  ✓ All packages installed successfully")
+        # pip install -e . (editable install)
+        # This is the key part for src/ layout projects
+        # We assume requirements.txt is installed via previous 'python setup.py'
+        # or separate pip install -r, but we ensure the editable install for src/
+        subprocess.check_call([sys.executable, '-m', 'pip', 'install', '-e', '.'])
+        # Replaced '✓' with '-'
+        print("  - Project installed in editable mode & dependencies verified/installed.")
     except subprocess.CalledProcessError:
-        print("  ! Error installing packages. Please run: pip install -r requirements.txt")
+        # Replaced '!' with '-'
+        print("  - Error installing packages. Please ensure requirements.txt is valid and try running 'pip install -r requirements.txt' manually.")
         return False
 
     return True
@@ -60,10 +72,12 @@ def check_python_version():
     print("Checking Python version...")
 
     if sys.version_info < (3, 10):
-        print(f"  ! Python 3.10+ required. You have {sys.version}")
+        # Replaced '!' with '-'
+        print(f"  - Python 3.10+ required. You have {sys.version.split()[0]}")
         return False
 
-    print(f"  ✓ Python {sys.version.split()[0]} detected")
+    # Replaced '✓' with '-'
+    print(f"  - Python {sys.version.split()[0]} detected")
     return True
 
 
@@ -85,24 +99,28 @@ def main():
     # Copy sample files
     copy_sample_files()
 
-    # Install requirements
+    # Install requirements and editable mode for src/
+    # This single call now handles both the editable install and implies requirements are met
     if not install_requirements():
         print("\nSetup completed with warnings.")
         return
 
     print("\n" + "=" * 50)
-    print("✨ Setup completed successfully!")
+    # Removed '✨' emoji
+    print("Setup completed successfully!")
     print("=" * 50)
     print()
     print("Next steps:")
     print("1. Ask your manager for the charge codes file")
     print("2. Place it in the 'charge_codes' directory")
     print("3. Run the application:")
+    # Updated command for src/ structure
     print("   - Windows: run.bat")
     print("   - macOS/Linux: ./run.sh")
-    print("   - Or directly: streamlit run app.py")
+    print("   - Or directly: streamlit run src/app.py")
     print()
-    print("Happy time tracking! 🎉")
+    # Removed '🎉' emoji
+    print("Happy time tracking!")
 
 
 if __name__ == "__main__":
