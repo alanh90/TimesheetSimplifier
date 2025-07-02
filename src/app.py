@@ -704,6 +704,31 @@ secondary_color = "#ff7f0e"  # Accent color
             else:
                 st.info("ℹ️ Charge codes are already up to date")
 
+    st.markdown("### 🧽 Clear All Data")
+    st.warning(
+        "⚠️ **Warning: This action is irreversible!** All your recorded time entries will be permanently deleted.")
+
+    if st.button("🚨 Clear All Time Entries", type="secondary", use_container_width=True):
+        st.session_state['confirm_clear_data'] = True
+
+    if st.session_state.get('confirm_clear_data', False):
+        st.info("Are you sure you want to delete ALL time entries? This cannot be undone.")
+        col_confirm1, col_confirm2 = st.columns([1, 4])
+        with col_confirm1:
+            if st.button("Yes, Delete All", type="primary"):
+                if te_manager.clear_all_entries():
+                    st.success("✅ All time entries have been cleared successfully!")
+                    st.session_state['confirm_clear_data'] = False  # Reset confirmation
+                    st.rerun()  # Refresh the app to show cleared state
+                else:
+                    st.error("❌ Failed to clear time entries. Please check permissions.")
+                    st.session_state['confirm_clear_data'] = False  # Reset confirmation
+        with col_confirm2:
+            if st.button("No, Cancel"):
+                st.info("Data deletion cancelled.")
+                st.session_state['confirm_clear_data'] = False  # Reset confirmation
+                st.rerun()  # Refresh to hide confirmation prompt
+
     # Help section
     st.markdown("### ❓ Help & Tips")
     with st.expander("How to use this app"):

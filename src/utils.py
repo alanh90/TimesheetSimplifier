@@ -195,6 +195,22 @@ class TimeEntryManager:
             print(f"Error loading entries: {e}")
             return {}
 
+    def clear_all_entries(self) -> bool:
+        """Deletes the time_entries.json file and resets in-memory entries."""
+        if os.path.exists(self.entries_file):
+            try:
+                os.remove(self.entries_file)
+                self.entries = {}  # Reset in-memory data
+                print(f"Time entries file '{self.entries_file}' deleted.")
+                return True
+            except Exception as e:
+                print(f"Error deleting time entries file: {e}")
+                return False
+        else:
+            self.entries = {}  # Already no file, just ensure in-memory is clear
+            print("No time entries file found, in-memory entries cleared.")
+            return True
+
     def save_entries(self):
         """Save time entries to JSON file"""
         data = {}
