@@ -4,12 +4,12 @@ Utility functions for Timesheet Simplifier
 import os
 import json
 import pandas as pd
-from datetime import datetime, date, timedelta
+from datetime import date, timedelta
 from typing import List, Dict, Optional, Tuple
 from pathlib import Path
 import toml
 import glob
-from models import ChargeCode, TimeEntry, DailyEntries, WeeklySummary
+from src.models import ChargeCode, TimeEntry, DailyEntries, WeeklySummary
 
 
 class ConfigManager:

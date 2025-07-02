@@ -4,16 +4,14 @@ Run with: python test_app.py
 """
 
 import unittest
-from datetime import date, datetime, timedelta
+from datetime import date, timedelta
 import os
-import json
 import tempfile
 import shutil
-from pathlib import Path
 
 # Import our modules
-from models import ChargeCode, TimeEntry, DailyEntries, WeeklySummary
-from utils import ConfigManager, ChargeCodeManager, TimeEntryManager, get_week_dates
+from src.models import ChargeCode, TimeEntry, DailyEntries
+from src.utils import ConfigManager, ChargeCodeManager, TimeEntryManager, get_week_dates
 
 
 class TestModels(unittest.TestCase):
