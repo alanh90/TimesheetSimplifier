@@ -5,28 +5,23 @@ organization = "Your Organization"
 team = "Your Team"
 
 [paths]
-# Directory where the charge code file will be placed
 charge_codes_dir = "./charge_codes"
-# Directory for storing time entries
 data_dir = "./data"
-# Directory for exports
 export_dir = "./exports"
 
 [files]
-# Expected charge code file patterns
 charge_code_patterns = ["*.xlsx", "*.xls", "*.csv"]
-# Time entries database
 time_entries_file = "time_entries.json"
 
 [ui]
-# Theme settings - customize these for your organization
-primary_color = "#1f77b4"  # Default blue
-secondary_color = "#ff7f0e"  # Default orange
-background_color = "#f0f2f6"
-text_color = "#262730"
+# Note: These values in [ui] will be overridden by [theme] if specified there.
+# Keeping them here for consistency with your original file, but the real control is in [theme].
+primary_color = "#BB86FC" # A common primary color for dark themes (Purple)
+secondary_color = "#03DAC6" # A common secondary color for dark themes (Teal)
+background_color = "#121212" # Dark background
+text_color = "#FFFFFF" # White text
 
 [features]
-# Feature flags
 enable_export = true
 enable_charts = true
 enable_weekly_summary = true
@@ -34,3 +29,18 @@ enable_search = true
 enable_templates = true
 max_hours_per_day = 24
 default_hours = 8
+
+# --- Streamlit Theming ---
+# This section directly configures Streamlit's built-in theme
+[theme]
+base="dark"
+primaryColor="#BB86FC"          # A modern purple
+backgroundColor="#1E1E1E"        # A dark grey/black for the main background
+secondaryBackgroundColor="#2D2D2D" # A slightly lighter dark grey for sidebar/containers
+textColor="#E0E0E0"             # Light grey text for readability on dark background
+font="sans serif"               # Modern, clean font
+
+# Example for a specific custom font (if you had a TTF file and wanted to use it)
+# font = "Roboto"
+# [font]
+# font_file = "path/to/your/Roboto-Regular.ttf"

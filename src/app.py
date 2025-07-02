@@ -37,128 +37,190 @@ config = st.session_state.config
 cc_manager = st.session_state.charge_code_manager
 te_manager = st.session_state.time_entry_manager
 
-# Dynamic CSS based on config
-primary_color = config.get('ui.primary_color', '#1f77b4')
-secondary_color = config.get('ui.secondary_color', '#ff7f0e')
+# Dynamic CSS based on config (still uses config values, now aligned with dark theme)
+primary_color = config.get('ui.primary_color', '#BB86FC') # Primary color from config.toml
+secondary_color = config.get('ui.secondary_color', '#03DAC6') # Secondary color from config.toml
+background_color = config.get('ui.background_color', '#121212')
+text_color = config.get('ui.text_color', '#FFFFFF')
 
-# Custom CSS for modern UI
+
+# Custom CSS for modern UI and dark theme compatibility
 st.markdown(f"""
 <style>
-    /* Main container */
+    /* Global Overrides (Streamlit base theme handles much of this now, but good for fine-tuning) */
+    html, body, .stApp {{
+        color: {text_color};
+        background-color: {background_color};
+        font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif; /* Modern font stack */
+    }}
+
+    /* Main container padding */
     .main {{
-        padding: 1rem;
+        padding: 1.5rem 1rem; /* Slightly more vertical padding */
     }}
 
     /* Headers */
     h1 {{
         color: {primary_color};
         font-weight: 700;
-        border-bottom: 3px solid {secondary_color};
-        padding-bottom: 10px;
-        margin-bottom: 30px;
+        border-bottom: 2px solid {secondary_color}; /* Thinner border for modern look */
+        padding-bottom: 8px;
+        margin-bottom: 25px;
+        font-size: 2.2rem; /* Slightly smaller for 'small modern' */
     }}
 
     h2 {{
         color: {primary_color};
         font-weight: 600;
-        margin-top: 30px;
-        margin-bottom: 20px;
+        margin-top: 25px;
+        margin-bottom: 15px;
+        font-size: 1.8rem;
     }}
 
     h3 {{
         color: {secondary_color};
         font-weight: 500;
+        font-size: 1.4rem;
     }}
 
-    /* Cards and containers */
-    .stContainer {{
-        background-color: white;
+    /* Streamlit Containers/Cards */
+    .stContainer, [data-testid="stVerticalBlock"], [data-testid="stHorizontalBlock"] {{
+        background-color: {config.get('theme.secondaryBackgroundColor', '#2D2D2D')}; /* Uses theme's secondary background */
         padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        border-radius: 8px; /* Slightly softer corners */
+        box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* More prominent shadow for dark theme depth */
         margin-bottom: 20px;
+        border: 1px solid rgba(255,255,255,0.05); /* Subtle light border for definition */
     }}
 
     /* Metrics */
     [data-testid="metric-container"] {{
-        background-color: #f8f9fa;
-        border: 1px solid #e9ecef;
+        background-color: {config.get('theme.secondaryBackgroundColor', '#2D2D2D')};
+        border: 1px solid rgba(255,255,255,0.05);
         padding: 15px;
-        border-radius: 10px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.15);
     }}
 
     /* Buttons */
     .stButton > button {{
         background-color: {secondary_color};
-        color: white;
+        color: {text_color}; /* Ensure text is visible on dark buttons */
         border: none;
-        padding: 0.5rem 1rem;
-        border-radius: 5px;
+        padding: 0.6rem 1.2rem; /* Slightly larger clickable area */
+        border-radius: 6px;
         font-weight: 500;
-        transition: all 0.3s;
+        transition: all 0.2s ease-in-out; /* Smoother transition */
+        cursor: pointer;
     }}
 
     .stButton > button:hover {{
-        background-color: {primary_color};
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        background-color: {primary_color}; /* Primary color on hover */
+        transform: translateY(-1px); /* Subtle lift */
+        box-shadow: 0 5px 12px rgba(0,0,0,0.3); /* Enhanced shadow */
     }}
 
-    /* Success/Error messages */
+    /* Success/Error messages (adjust colors for dark theme readability) */
     .success-message {{
-        background-color: #d4edda;
-        border: 1px solid #c3e6cb;
-        color: #155724;
+        background-color: #388E3C; /* Darker green */
+        border: 1px solid #66BB6A;
+        color: #E8F5E9; /* Lighter text */
         padding: 10px;
         border-radius: 5px;
         margin: 10px 0;
     }}
 
     .error-message {{
-        background-color: #f8d7da;
-        border: 1px solid #f5c6cb;
-        color: #721c24;
+        background-color: #D32F2F; /* Darker red */
+        border: 1px solid #EF5350;
+        color: #FFEBEE; /* Lighter text */
         padding: 10px;
         border-radius: 5px;
         margin: 10px 0;
     }}
 
-    /* Tables */
+    /* Tables (Pandas Dataframes) */
     .dataframe {{
-        font-size: 14px;
+        font-size: 13px; /* Slightly smaller font */
+        border-collapse: collapse; /* Clean table lines */
+        width: 100%;
     }}
 
     .dataframe th {{
         background-color: {primary_color} !important;
-        color: white !important;
+        color: {text_color} !important;
         font-weight: 600;
+        padding: 10px;
+        text-align: left;
+    }}
+
+    .dataframe td {{
+        padding: 8px 10px;
+        border-bottom: 1px solid rgba(255,255,255,0.05); /* Subtle line for rows */
+        color: {text_color};
     }}
 
     .dataframe tr:nth-child(even) {{
-        background-color: #f8f9fa;
+        background-color: {config.get('theme.secondaryBackgroundColor', '#2D2D2D')}; /* Subtle alternate row shading */
+    }}
+
+    .dataframe tr:hover {{
+        background-color: rgba(255,255,255,0.08); /* Hover effect */
     }}
 
     /* Sidebar */
-    .css-1d391kg {{
-        background-color: #f0f2f6;
+    .css-1d391kg, .css-1dp5xrt {{ /* Targeting sidebar background */
+        background-color: {config.get('theme.secondaryBackgroundColor', '#2D2D2D')} !important;
+        border-right: 1px solid rgba(255,255,255,0.05);
     }}
 
     /* Tabs */
     .stTabs [data-baseweb="tab-list"] {{
-        gap: 8px;
+        gap: 6px; /* Tighter gap for modern feel */
     }}
 
     .stTabs [data-baseweb="tab"] {{
-        background-color: #e9ecef;
-        border-radius: 5px 5px 0 0;
-        padding: 10px 20px;
+        background-color: {config.get('theme.secondaryBackgroundColor', '#2D2D2D')};
+        border-radius: 6px 6px 0 0;
+        padding: 8px 15px; /* Smaller padding */
         font-weight: 500;
+        color: {text_color};
+        border: 1px solid rgba(255,255,255,0.1);
+        transition: all 0.2s ease-in-out;
     }}
 
     .stTabs [aria-selected="true"] {{
         background-color: {primary_color};
         color: white;
+        border: 1px solid {primary_color};
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }}
+
+    .stTabs [data-baseweb="tab"]:hover:not([aria-selected="true"]) {{
+        background-color: rgba(255,255,255,0.1);
+        color: white;
+    }}
+
+    /* Input widgets (text input, number input, selectbox) */
+    .stTextInput>div>div>input, .stNumberInput>div>div>input, .stTextArea>div>div>textarea {{
+        background-color: {background_color};
+        color: {text_color};
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 5px;
+        padding: 0.5rem 0.75rem;
+    }}
+    .stSelectbox>div>div>div[data-baseweb="select"] {{
+        background-color: {background_color};
+        color: {text_color};
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 5px;
+    }}
+    .stDateInput>div>div>input {{
+        background-color: {background_color};
+        color: {text_color};
+        border: 1px solid rgba(255,255,255,0.1);
+        border-radius: 5px;
+        padding: 0.5rem 0.75rem;
     }}
 </style>
 """, unsafe_allow_html=True)
@@ -377,6 +439,10 @@ def show_dashboard_page():
         for entry in entries
     ])
 
+    # --- THIS IS THE CRUCIAL LINE ADDED TO FIX THE AttributeError ---
+    df['Date'] = pd.to_datetime(df['Date'])
+    # --- END OF ADDED LINE ---
+
     # Summary metrics
     col1, col2, col3, col4 = st.columns(4)
     with col1:
@@ -438,7 +504,7 @@ def show_dashboard_page():
         pivot_df = df.pivot_table(
             values='Hours',
             index='Charge Code',
-            columns=df['Date'].dt.strftime('%Y-%m-%d'),
+            columns=df['Date'].dt.strftime('%Y-%m-%d'), # This .dt accessor now works correctly
             fill_value=0
         )
 
